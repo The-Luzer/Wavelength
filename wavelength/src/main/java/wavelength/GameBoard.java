@@ -41,7 +41,7 @@ public class GameBoard {
             
             // target
             spinTarget();
-            System.out.println("\nTarget is: " + targetInt + "/180 (" + Math.floor((int) targetInt/1.8) + "%)");
+            System.out.println("\nTarget is: " + targetInt + "/180 (" + (int) Math.floor(targetInt/1.8) + "%)");
 
             // clue
             takeInClue(input);
@@ -100,7 +100,7 @@ public class GameBoard {
 
     private void displayPoints(){
         System.out.println(team1.getName() + " Points: " + team1.getPoints());
-        System.out.println(team1.getName() + " Points: " + team2.getPoints() + "\n");
+        System.out.println(team2.getName() + " Points: " + team2.getPoints() + "\n");
     }
 
     private void evaluateRound(Team team, int target, int guess, boolean otherGuess){
