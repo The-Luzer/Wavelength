@@ -4,10 +4,12 @@ import java.util.*;
 
 public class GameBoard {
 
-    private Deck deck;
+    private Team team1;
+    private Team team2;
 
-    private int team1Points;
-    private int team2Points;
+    private Team activeTeam;
+
+    private Deck deck;
 
     private Category activeCategory;
 
@@ -17,54 +19,46 @@ public class GameBoard {
 
     private int guessInt;
 
+    private boolean guessHigher;
+
     public GameBoard(){
-        team1Points = 0;
-        team2Points = 0;
+        team1 = new Team("Team 1");
+        team2 = new Team("Team 2");
+        activeTeam = team1;
     }
 
     public void playGame(){
         deck = new Deck();
-        // TODO gameplay loop
+        
         Scanner input = new Scanner(System.in);
 
+        // gameplay loop
         while(!gameOver()){
             // category
-            System.out.println("Select Category:");
+            System.out.println(activeTeam.getName() + ": Select Category:");
             pickCategory(input);
             System.out.println("\nCategory is: " + activeCategory);
             
             // target
             spinTarget();
-            System.out.println("\nTarget is: " + targetInt + "/100");
+            System.out.println("\nTarget is: " + targetInt + "/180 (" + Math.floor((int) targetInt/1.8) + "%)");
 
             // clue
             takeInClue(input);
+            input.reset();
             System.out.println("\nOn a scale of " + activeCategory.min.toLowerCase() + " to " + activeCategory.max.toLowerCase() + ",");
-            System.out.println("where is *" + clueString + "* out of 100?");
+            System.out.println("where is *" + clueString + "* out of 180?");
+            
             takeInGuess(input);
-            if (Math.abs(targetInt - guessInt) < 40){
-                team1Points += 2;
-            }
+            input.reset();
+
+            takeInOtherGuess(input);
+            input.reset();
+            
+            evaluateRound(activeTeam, targetInt, guessInt, guessHigher);
             displayPoints();
+            turnSwap();
         }
-    }
-
-    /**
-     * Gets Team 1's points
-     * 
-     * @return Point count for Team 1
-     */
-    public int getTeam1Points(){
-        return team1Points;
-    }
-
-    /**
-     * Gets Team 2's points
-     * 
-     * @return Point count for Team 2
-     */
-    public int getTeam2Points(){
-        return team2Points;
     }
 
     private void pickCategory(Scanner scanner){
@@ -74,36 +68,78 @@ public class GameBoard {
         System.out.println("2: " + category2);
         int input = 0;
         while(input != 1 && input != 2){ 
-            System.out.println("1 or 2?");
+            System.out.println("1 or 2?: ");
             input = scanner.nextInt();
             activeCategory = (input == 1) ? category1 : category2;
         }
     }
 
-    public void spinTarget(){
+    private void spinTarget(){
         Random rand = new Random();
-        targetInt = rand.nextInt(101);
+        targetInt = rand.nextInt(181);
     }
 
-    public void takeInClue(Scanner scanner){
-        clueString = "bananas";
+    private void takeInClue(Scanner scanner){
+        clueString = "";
+        while (clueString.equals("")){
+            System.out.print("Enter clue: ");
+            clueString = scanner.nextLine();
+        }
     }
 
-    public void takeInGuess(Scanner scanner){
-        guessInt = 50;
+    private void takeInGuess(Scanner scanner){
+        guessInt = -1;
+        while(guessInt == -1 ){ 
+            guessInt = scanner.nextInt();
+        }
     }
 
-    public void displayPoints(){
-        System.out.println("Team 1 Points: " + team1Points);
-        System.out.println("Team 2 Points: " + team2Points);
+    private void takeInOtherGuess(Scanner scanner){
+        guessHigher = true;
+    }
+
+    private void displayPoints(){
+        System.out.println(team1.getName() + " Points: " + team1.getPoints());
+        System.out.println(team1.getName() + " Points: " + team2.getPoints() + "\n");
+    }
+
+    private void evaluateRound(Team team, int target, int guess, boolean otherGuess){
+        // 7 degrees per zone
+        // 35 degrees for scoring points
+        // 18 degrees is 10
+        // 111111122222223333333444 4 444333333322222221111111
+
+        int diff = Math.abs(targetInt - guessInt);
+        if (diff <= 4){
+            team.addPoints(4);
+        }
+        else if (diff <= 11){
+            team.addPoints(3);
+        }
+        else if (diff <= 18){
+            team.addPoints(2);
+        }
+        else if (diff <= 25){
+            team.addPoints(1);
+        }
+        
+        boolean higher = target > guess;
+        Team otherTeam = (team == team1) ? team2 : team1;
+        if (higher == otherGuess){
+            otherTeam.addPoints(1);
+        }
     }
 
     public void revealWavelength(){
         // TODO: print out range
     }
 
+    private void turnSwap(){
+        activeTeam = (activeTeam == team1) ? team2 : team1;
+    }
+
     private boolean gameOver(){
-        if (team1Points > 9 || team2Points > 9){
+        if (team1.getPoints() > 9 || team2.getPoints() > 9){
             return true;
         }
         return false;
@@ -114,7 +150,7 @@ public class GameBoard {
  *  Round 1
  *      Category chosen/revealed
  *      Spinner spun (hidden)
- *      Team 1 player 1 sees number (0-100)
+ *      Team 1 player 1 sees number (0-180)
  *      Team 1 player one says (types?) in their object
  *      Team 1 other players guess on range
  *      Team 2 players guess higher or lower
@@ -123,7 +159,7 @@ public class GameBoard {
  *  Round 2
  *      Category chosen/revealed
  *      Spinner spun (hidden)
- *      Team 2 player 2 sees number (0-100)
+ *      Team 2 player 2 sees number (0-180)
  *      Team 2 player one says (types?) in their object
  *      Team 2 other players guess on range
  *      Team 1 players guess higher or lower
