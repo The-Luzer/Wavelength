@@ -24,11 +24,11 @@ public class GameBoard {
     public GameBoard(){
         team1 = new Team("Team 1");
         team2 = new Team("Team 2");
+        deck = new Deck();
         activeTeam = team1;
     }
 
-    public void playGame(){
-        deck = new Deck();
+    public void playGameScanner(){
         
         Scanner input = new Scanner(System.in);
 
@@ -55,7 +55,7 @@ public class GameBoard {
             takeInOtherGuess(input);
             input.reset();
             
-            evaluateRound(activeTeam, targetInt, guessInt, guessHigher);
+            evaluateRound();
             displayPoints();
             turnSwap();
         }
@@ -74,7 +74,11 @@ public class GameBoard {
         }
     }
 
-    private void spinTarget(){
+    public void drawCategory(){
+        activeCategory = deck.draw();
+    }
+
+    public void spinTarget(){
         Random rand = new Random();
         targetInt = rand.nextInt(181);
     }
@@ -92,6 +96,10 @@ public class GameBoard {
         while(guessInt == -1 ){ 
             guessInt = scanner.nextInt();
         }
+    }
+
+    public void setGuess(int guess){
+        guessInt = guess;
     }
 
     private void takeInOtherGuess(Scanner scanner){
@@ -118,7 +126,7 @@ public class GameBoard {
         System.out.println(team2.getName() + " Points: " + team2.getPoints() + "\n");
     }
 
-    private void evaluateRound(Team team, int target, int guess, boolean otherGuess){
+    public void evaluateRound(){
         // 7 degrees per zone
         // 35 degrees for scoring points
         // 18 degrees is 10
@@ -126,20 +134,20 @@ public class GameBoard {
 
         int diff = Math.abs(targetInt - guessInt);
         if (diff <= 4){
-            team.addPoints(4);
+            activeTeam.addPoints(4);
         }
         else if (diff <= 11){
-            team.addPoints(3);
+            activeTeam.addPoints(3);
         }
         else if (diff <= 18){
-            team.addPoints(2);
+            activeTeam.addPoints(2);
         }
         else if (diff <= 25){
-            team.addPoints(1);
+            activeTeam.addPoints(1);
         }
 
-        boolean higher = (target > guess);
-        Team otherTeam = (team == team1) ? team2 : team1;
+        boolean higher = (targetInt > guessInt);
+        Team otherTeam = (activeTeam == team1) ? team2 : team1;
         if (higher == guessHigher){
             otherTeam.addPoints(1);
         }
@@ -158,6 +166,22 @@ public class GameBoard {
             return true;
         }
         return false;
+    }
+
+    public Category getActiveCategory(){
+        return activeCategory;
+    }
+
+    public int getTargetInt(){
+        return targetInt;
+    }
+
+    public int getTeam1Points(){
+        return team1.getPoints();
+    }
+
+    public int getTeam2Points(){
+        return team2.getPoints();
     }
 }
 

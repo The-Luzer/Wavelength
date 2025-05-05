@@ -4,27 +4,67 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wavelength.Controller">
-   <right>
-      <Button mnemonicParsing="false" text="Flip" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <Slider max="180.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" BorderPane.alignment="CENTER" />
-   </center>
-   <top>
-      <Pane fx:id="draggableWindow" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <children>
-            <Label fx:id="dragHandle" alignment="CENTER" contentDisplay="CENTER" layoutX="556.0" prefHeight="200.0" prefWidth="20.0" style="-fx-cursor: move; -fx-background-color: darkgray;" text="D   r   a   g" textAlignment="CENTER" wrapText="true" />
-         </children>
-      </Pane>
-   </top>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: midnightblue;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wavelength.Controller">
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+   <top>
+      <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: antiquewhite;" BorderPane.alignment="CENTER">
+         <children>
+            <Slider fx:id="answerSlider" majorTickUnit="30.0" max="180.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: antiquewhite;">
+               <padding>
+                  <Insets left="100.0" right="50.0" />
+               </padding>
+            </Slider>
+            <Pane fx:id="draggableWindow" style="-fx-background-color: mediumturquoise;" StackPane.alignment="CENTER_LEFT">
+               <children>
+                  <Label fx:id="dragHandle" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="600.0" prefHeight="150.0" prefWidth="20.0" style="-fx-cursor: move; -fx-background-color: darkgray;" text="D   r   a   g" textAlignment="CENTER" wrapText="true" />
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Slider fx:id="guessSlider" majorTickUnit="30.0" max="180.0" prefHeight="75.0" prefWidth="600.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: red;">
+               <padding>
+                  <Insets left="100.0" right="50.0" />
+               </padding>
+            </Slider>
+            <HBox id="Cards" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextArea id="LeftField" fx:id="leftArea" prefHeight="100.0" prefWidth="150.0" wrapText="true" />
+                  <TextArea id="RightField" fx:id="rightArea" prefHeight="100.0" prefWidth="150.0" wrapText="true" />
+               </children>
+            </HBox>
+            <HBox id="Points" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+               <children>
+                  <Button id="Start" fx:id="startButton" mnemonicParsing="false" text="Start" />
+                  <TextField id="Info" fx:id="infoField" prefHeight="60.0" prefWidth="150.0" />
+                  <Label fx:id="team1Points" text="1 Pts" textFill="WHITE">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="team2Points" text="2 Pts" textFill="WHITE">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Button id="Close" fx:id="closeButton" mnemonicParsing="false" text="Close" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

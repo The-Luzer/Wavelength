@@ -7,7 +7,7 @@ public class Wavelength {
     /**
      * Constructor
      */
-    private Wavelength(){
+    public Wavelength(){
 
     }
     
@@ -23,8 +23,6 @@ public class Wavelength {
 
     private void playGame(){
         board = new GameBoard();
-        board.playGame();
-    }
-
-    
+        board.playGameScanner();
+    }   
 }
