@@ -95,7 +95,22 @@ public class GameBoard {
     }
 
     private void takeInOtherGuess(Scanner scanner){
-        guessHigher = true;
+        String answer = "";
+        while (answer.equals("")){
+            System.out.print("Higher or Lower? [H/L]: ");
+            answer = scanner.next();
+            System.out.println(answer);
+            switch(answer){
+                case "H":
+                guessHigher = true;
+                break;
+                case "L":
+                guessHigher = false;
+                break;
+                default:
+                answer = "";
+            }
+        }
     }
 
     private void displayPoints(){
@@ -122,10 +137,10 @@ public class GameBoard {
         else if (diff <= 25){
             team.addPoints(1);
         }
-        
-        boolean higher = target > guess;
+
+        boolean higher = (target > guess);
         Team otherTeam = (team == team1) ? team2 : team1;
-        if (higher == otherGuess){
+        if (higher == guessHigher){
             otherTeam.addPoints(1);
         }
     }
