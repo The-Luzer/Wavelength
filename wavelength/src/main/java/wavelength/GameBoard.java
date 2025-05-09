@@ -121,6 +121,10 @@ public class GameBoard {
         }
     }
 
+    public void setGuessHigher(boolean value){
+        guessHigher = value;
+    }
+
     private void displayPoints(){
         System.out.println(team1.getName() + " Points: " + team1.getPoints());
         System.out.println(team2.getName() + " Points: " + team2.getPoints() + "\n");

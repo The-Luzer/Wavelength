@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -50,21 +51,33 @@
             <HBox id="Points" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                <children>
                   <Button id="Start" fx:id="startButton" mnemonicParsing="false" text="Start" />
-                  <TextField id="Info" fx:id="infoField" prefHeight="60.0" prefWidth="150.0" />
-                  <Label fx:id="team1Points" text="1 Pts" textFill="WHITE">
+                  <TextField id="Info" fx:id="infoField" prefHeight="60.0" prefWidth="125.0" />
+                  <Label fx:id="team1Points" text="1: 0" textFill="WHITE">
                      <font>
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Label fx:id="team2Points" text="2 Pts" textFill="WHITE">
+                  <Label fx:id="team2Points" text="2: 0" textFill="WHITE">
                      <font>
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Button id="Close" fx:id="closeButton" mnemonicParsing="false" text="Close" />
+                  <Button id="Close" fx:id="closeButton" mnemonicParsing="false" text="Close Window" />
                </children>
             </HBox>
          </children>
       </VBox>
    </center>
+   <bottom>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="higherLabel" text="Higher?" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <ToggleButton fx:id="toggleButton" contentDisplay="CENTER" mnemonicParsing="false" text="Toggle" />
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
