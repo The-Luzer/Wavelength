@@ -48,6 +48,12 @@ public class Controller {
     private Button closeButton;
 
     @FXML
+    private Label higherLabel;
+
+    @FXML
+    private ToggleButton toggleButton;
+
+    @FXML
     public void initialize(){
 
         game = new GameBoard();
@@ -56,6 +62,7 @@ public class Controller {
         borderPaneWidth = borderPane.getWidth();
         team1Points.setText("1: " + String.valueOf(game.getTeam1Points()));
         team2Points.setText("2: " + String.valueOf(game.getTeam2Points()));
+        higherLabel.setText("");
 
         
         /// DRAG HANDLE
@@ -77,10 +84,13 @@ public class Controller {
         });
 
         dragHandle.setOnMouseReleased(e -> {
+            
+            // scoring
             if (draggableWindow.getWidth() < 90 && !(infoField.getText().equals(""))){
                 game.evaluateRound();
                 team1Points.setText("1: " + String.valueOf(game.getTeam1Points()));
                 team2Points.setText("2: " + String.valueOf(game.getTeam2Points()));
+                infoField.clear();
             }
         });
 
@@ -111,6 +121,13 @@ public class Controller {
             rightArea.setText(category.max);
 
             infoField.clear();
+        });
+
+        toggleButton.setOnAction(e -> {
+            game.setGuessHigher(toggleButton.isSelected());
+            String text = toggleButton.isSelected() ? "Status: Higher" : "Status: Lower";
+            higherLabel.setText(text);
+            System.out.println(toggleButton.isSelected());
         });
 
         /// SLIDERS
