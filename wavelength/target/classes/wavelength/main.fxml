@@ -21,7 +21,7 @@
    <top>
       <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: antiquewhite;" BorderPane.alignment="CENTER">
          <children>
-            <Slider fx:id="answerSlider" majorTickUnit="30.0" max="180.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: antiquewhite;">
+            <Slider fx:id="answerSlider" disable="true" majorTickUnit="30.0" max="180.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: antiquewhite;">
                <padding>
                   <Insets left="100.0" right="50.0" />
                </padding>
@@ -71,7 +71,7 @@
    <bottom>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="higherLabel" text="Higher?" textFill="WHITE">
+            <Label fx:id="higherLabel" text="Status:" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
